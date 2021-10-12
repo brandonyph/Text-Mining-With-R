@@ -15,7 +15,7 @@
 8.  Using Logistic regression for classification  
 9.  Test model on new data
 
-# Setup Work Directory and List down all Pdf in the folder as a list object
+# Setup Work Directory and List down all Pdf in the folder as a List Object
 
 ``` r
 getwd()
@@ -138,7 +138,7 @@ library(pdftools)
 
     ## Using poppler version 21.04.0
 
-# Create Intitalte Word Count Matrix of Correct Dimenstions
+# Create Starting Word Count Matrix of Correct Dimenstions
 
 ``` r
 filelength <- length(files)
