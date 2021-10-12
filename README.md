@@ -4,7 +4,7 @@
 
 # Chapters
 
-1.  set up the path for both positive and negative folder  
+1.  Set up the path for both positive and negative folder  
 2.  Set up all keywords  
 3.  Create a Word Count matrix of correct dimensions  
 4.  Loop through all pdf files and count the keywords of each files one
