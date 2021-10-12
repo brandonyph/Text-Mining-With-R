@@ -1,4 +1,4 @@
-# Before you start
+# Before You Start
 
 1.  Set up the folder and file system with pdf in Positive and Negative
 
@@ -81,7 +81,7 @@ files
     ## [95] "./Negative/journal.pone.0257988.pdf" "./Negative/journal.pone.0258070.pdf"
     ## [97] "./Negative/journal.pone.0258405.pdf"
 
-# List all keywords you want to detect as another list object
+# List All Keywords as Another List Object
 
 ``` r
 keywords <-
@@ -138,7 +138,7 @@ library(pdftools)
 
     ## Using poppler version 21.04.0
 
-# Create Intitalte Word Count matrix of correct dimenstions
+# Create Intitalte Word Count Matrix of Correct Dimenstions
 
 ``` r
 filelength <- length(files)
@@ -164,7 +164,7 @@ head(word_count)
     ## [5,]  1363  1460  1557  1654  1751  1848
     ## [6,]  1364  1461  1558  1655  1752  1849
 
-# Loop through all pdf files and count the keywords of each files one by one
+# Loop Through All Pdf Files and Count the Keywords In A Loop
 
 ``` r
 for (j in 1:length(files)) {
@@ -204,7 +204,7 @@ head(word_count)
     ## [5,]     0     0     0     0     0    73
     ## [6,]     0     0     0     0     1     0
 
-# Export the word Count as dataframe
+# Export The Word Count as Dataframe
 
 ``` r
 word_matrix <- as.data.frame(word_count)
@@ -238,7 +238,7 @@ Label
     ## [91] "Negative" "Negative" "Negative" "Negative" "Negative" "Negative"
     ## [97] "Negative"
 
-# Visualized the word count matrix
+# Visualized the Word Count Matrix
 
 ``` r
 library(pheatmap)
@@ -247,7 +247,7 @@ pheatmap(word_matrix)
 
 ![](textmining_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-# Visualized the word count matrix after keyword filtering
+# Visualized the Word Count Matrix After Keyword Filtering
 
 ``` r
 indices <- colSums(word_matrix) > 10
@@ -258,7 +258,7 @@ pheatmap(word_matrix2)
 
 ![](textmining_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-# USing SVM for classification
+# USing SVM for Classification
 
 ``` r
 library(e1071)
@@ -364,7 +364,7 @@ train_label <- to_categorical(y,num_classes = 2)
 train_label <- train_label %>% copydata(5)
 ```
 
-# Create Neural Network in Keras
+# Define NN Model in Keras
 
 ``` r
 model <- keras_model_sequential() %>% 
@@ -416,7 +416,7 @@ history <- model %>%
   )
 ```
 
-# Testing Newly Created Neural Network on Testing data
+# Test Newly Created Neural Network Using Testing data
 
 ``` r
 TestFiles <- paste0("./Test/",list.files(path = "./Test",pattern = ".pdf"))
@@ -464,7 +464,7 @@ x <- unlist(word_matrix_test[,indices])
 dim(x) <- c(filelength,ncol(word_matrix2))
 ```
 
-#Predict Outcome of testing documents against ground truth
+#Predict Outcome of Testing Documents Against Ground Truth
 
 ``` r
 NN_prediction <- predict(model,x=x)
@@ -491,7 +491,7 @@ cm$table
     ##   Negative        3        0
     ##   Positive        0        3
 
-# Which articles do I read then?
+# Which Articles Do I Read?
 
 ``` r
 colnames(NN_prediction) <- c("Negative","Positive")
