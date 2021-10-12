@@ -1,12 +1,16 @@
 Before you start 1. Set up the folder and file system with pdf in
-Postive and Negative
+Positive and Negative
 
-Chapters 1. set up the path for both positive and negative folder 2. Set
-up all keywords 3. Create a Word Count matrix of correct dimensions 4.
-Loop through all pdf files and count the keywords of each files one by
-one 5. Export the word Count as data frame 6. Using SVM for
-classification 7. Using Neural Network for classification 8. Using
-Logistic regression for classification 9. Test model on new data
+Chapters 1. set up the path for both positive and negative folder  
+2. Set up all keywords  
+3. Create a Word Count matrix of correct dimensions  
+4. Loop through all pdf files and count the keywords of each files one
+by one  
+5. Export the word Count as data frame  
+6. Using SVM for classification  
+7. Using Neural Network for classification  
+8. Using Logistic regression for classification  
+9. Test model on new data
 
 # Setup Work Directory and List down all Pdf in the folder as a list object
 
@@ -107,7 +111,7 @@ head(keywords)
     ## [1] "taxonomy"         "pcr"              "amplification"    "primer"          
     ## [5] "molecular"        "cloud computing "
 
-# Import Libarry
+# Import Libaries
 
 ``` r
 library(dplyr)

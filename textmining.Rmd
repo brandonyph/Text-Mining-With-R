@@ -12,20 +12,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Before you start
-1.  Set up the folder and file system with pdf in Postive and Negative
+1.  Set up the folder and file system with pdf in Positive and Negative  
 
 Chapters
-1.  set up the path for both positive and negative folder
-2.  Set up all keywords 
-3.  Create a Word Count matrix of correct dimensions
-4.  Loop through all pdf files and count the keywords of each files one by one 
-5.  Export the word Count as data frame
-6.  Using SVM for classification 
-7.  Using Neural Network for classification 
-8.  Using Logistic regression for classification 
-9.  Test model on new data
+1.  set up the path for both positive and negative folder  
+2.  Set up all keywords  
+3.  Create a Word Count matrix of correct dimensions  
+4.  Loop through all pdf files and count the keywords of each files one by one  
+5.  Export the word Count as data frame  
+6.  Using SVM for classification  
+7.  Using Neural Network for classification  
+8.  Using Logistic regression for classification  
+9.  Test model on new data  
 
-#  Setup Work Directory and List down all Pdf in the folder as a list object
+#  Setup Work Directory and List down all Pdf in the folder as a list object  
+
 ```{r}
 getwd()
 
@@ -37,7 +38,7 @@ files
 
 ```
 
-#  List all keywords you want to detect as another list object 
+#  List all keywords you want to detect as another list object  
 
 ```{r}
 keywords <-
@@ -67,14 +68,16 @@ keywords <-
 head(keywords)
 ```
 
-#  Import Libarry 
+#  Import Libaries  
+
 ```{r}
 library(dplyr)
 library(stringr)
 library(pdftools)
 ```
 
-# Create Intitalte Word Count matrix of correct dimenstions
+# Create Intitalte Word Count matrix of correct dimenstions  
+
 ```{r}
 filelength <- length(files)
 wordlength <- length(keywords)
@@ -84,7 +87,8 @@ dim(word_count) <- c(filelength,wordlength)
 head(word_count)
 ```
 
-#  Loop through all pdf files and count the keywords of each files one by one 
+#  Loop through all pdf files and count the keywords of each files one by one  
+
 ```{r}
 for (j in 1:length(files)) {
   P1 <- pdftools::pdf_text(pdf = files[j]) %>%
@@ -108,7 +112,8 @@ for (j in 1:length(files)) {
 head(word_count)
 ```
 
-# Export the word Count as dataframe
+# Export the word Count as dataframe  
+
 ```{r}
 
 word_matrix <- as.data.frame(word_count)
@@ -124,13 +129,15 @@ Label <- c(rep("Positive",length(PositiveFiles)),rep("Negative",length(NegativeF
 Label
 ```
 
-# Visualized the word count matrix
+# Visualized the word count matrix  
+
 ```{r}
 library(pheatmap)
 pheatmap(word_matrix)
 ```
 
-# Visualized the word count matrix after keyword filtering
+# Visualized the word count matrix after keyword filtering  
+
 ```{r}
 indices <- colSums(word_matrix) > 10
 
@@ -138,7 +145,8 @@ word_matrix2 <- word_matrix[,indices]
 pheatmap(word_matrix2)
 ```
 
-#  USing SVM for classification 
+#  USing SVM for classification  
+
 ```{r}
 library(e1071)
 
@@ -154,7 +162,8 @@ caret::confusionMatrix(svm_pred, svm_y)
 
 ```
 
-#  Using Logistic Regression
+#  Using Logistic Regression  
+
 ```{r}
 library(glmnet)
 
@@ -174,7 +183,8 @@ glm_cm$table
 #https://www.statology.org/glm-fit-fitted-probabilities-numerically-0-or-1-occurred/
 ```
 
-#  Create Neural Network in Keras
+#  Create Neural Network in Keras  
+
 ```{r}
 ###Create neural network
 library(tensorflow)
@@ -197,7 +207,8 @@ train_label <- to_categorical(y,num_classes = 2)
 train_label <- train_label %>% copydata(5)
 ```
 
-#  Create Neural Network in Keras
+#  Create Neural Network in Keras  
+
 ```{r}
 model <- keras_model_sequential() %>% 
   layer_dense(units = 28, activation = "sigmoid", input_shape = c(ncol(train_data))) %>% 
@@ -215,7 +226,8 @@ model %>% compile(
 )
 ```
 
-#  Train Neural Network
+#  Train Neural Network  
+
 ```{r}
 history <- model %>% 
   fit(
@@ -226,7 +238,8 @@ history <- model %>%
   )
 ```
 
-#  Testing Newly Created Neural Network on Testing data
+#  Testing Newly Created Neural Network on Testing data  
+
 ```{r}
 TestFiles <- paste0("./Test/",list.files(path = "./Test",pattern = ".pdf"))
 TestFiles
@@ -267,7 +280,8 @@ x <- unlist(word_matrix_test[,indices])
 dim(x) <- c(filelength,ncol(word_matrix2))
 ```
 
-#Predict Outcome of testing document against ground truth
+#Predict Outcome of testing document against ground truth  
+
 ```{r}
 NN_prediction <- predict(model,x=x)
 NN_prediction <- round(NN_prediction)
@@ -288,7 +302,7 @@ cm <- caret::confusionMatrix(NN_outcome, y)
 cm$table
 ```
 
-# Which Article do I read then?
+# Which Article do I read then?  
 
 ```{r}
 colnames(NN_prediction) <- c("Negative","Positive")
