@@ -1,3 +1,6 @@
+Before you start 1. Set up the folder and file system with pdf in
+Postive and Negative
+
 Chapters 1. set up the path for both positive and negative folder 2. Set
 up all keywords 3. Create a Word Count matrix of correct dimensions 4.
 Loop through all pdf files and count the keywords of each files one by
@@ -8,12 +11,68 @@ Logistic regression for classification 9. Test model on new data
 # Setup Work Directory and List down all Pdf in the folder as a list object
 
 ``` r
-setwd("D:/Users/Desktop/TextMining/")
+getwd()
+```
 
+    ## [1] "D:/Users/Documents/GitHub/Text-Mining-With-R/Text-Mining-With-R"
+
+``` r
 PositiveFiles <- paste0("./Positive/",list.files(path = "./Positive",pattern = ".pdf"))
 NegativeFiles <- paste0("./Negative/",list.files(path = "./Negative",pattern = ".pdf"))
 files <- c(PositiveFiles,NegativeFiles)
+
+files
 ```
+
+    ##  [1] "./Positive/journal.pone.0252003.pdf" "./Positive/journal.pone.0253080.pdf"
+    ##  [3] "./Positive/journal.pone.0254293.pdf" "./Positive/journal.pone.0255083.pdf"
+    ##  [5] "./Positive/journal.pone.0255531.pdf" "./Positive/journal.pone.0255674.pdf"
+    ##  [7] "./Positive/journal.pone.0255874.pdf" "./Positive/journal.pone.0256329.pdf"
+    ##  [9] "./Positive/journal.pone.0256579.pdf" "./Positive/journal.pone.0256679.pdf"
+    ## [11] "./Positive/journal.pone.0256861.pdf" "./Positive/journal.pone.0256989.pdf"
+    ## [13] "./Positive/journal.pone.0257209.pdf" "./Positive/journal.pone.0257243.pdf"
+    ## [15] "./Positive/journal.pone.0257338.pdf" "./Positive/journal.pone.0257362.pdf"
+    ## [17] "./Positive/journal.pone.0257392.pdf" "./Positive/journal.pone.0257419.pdf"
+    ## [19] "./Positive/journal.pone.0257445.pdf" "./Positive/journal.pone.0257460.pdf"
+    ## [21] "./Positive/journal.pone.0257510.pdf" "./Positive/journal.pone.0257519.pdf"
+    ## [23] "./Positive/journal.pone.0257572.pdf" "./Positive/journal.pone.0257575.pdf"
+    ## [25] "./Positive/journal.pone.0257582.pdf" "./Positive/journal.pone.0257624.pdf"
+    ## [27] "./Positive/journal.pone.0257642.pdf" "./Positive/journal.pone.0257803.pdf"
+    ## [29] "./Positive/journal.pone.0257826.pdf" "./Positive/journal.pone.0257858.pdf"
+    ## [31] "./Positive/journal.pone.0257890.pdf" "./Positive/journal.pone.0257968.pdf"
+    ## [33] "./Positive/journal.pone.0258003.pdf" "./Positive/journal.pone.0258062.pdf"
+    ## [35] "./Positive/journal.pone.0258081.pdf" "./Positive/journal.pone.0258148.pdf"
+    ## [37] "./Positive/journal.pone.0258149.pdf" "./Positive/journal.pone.0258150.pdf"
+    ## [39] "./Positive/journal.pone.0258153.pdf" "./Positive/journal.pone.0258169.pdf"
+    ## [41] "./Positive/journal.pone.0258183.pdf" "./Positive/journal.pone.0258186.pdf"
+    ## [43] "./Positive/journal.pone.0258193.pdf" "./Positive/journal.pone.0258198.pdf"
+    ## [45] "./Positive/journal.pone.0258212.pdf" "./Positive/journal.pone.0258220.pdf"
+    ## [47] "./Positive/journal.pone.0258221.pdf" "./Positive/journal.pone.0258230.pdf"
+    ## [49] "./Positive/journal.pone.0258233.pdf" "./Positive/journal.pone.0258249.pdf"
+    ## [51] "./Positive/journal.pone.0258267.pdf" "./Positive/journal.pone.0258273.pdf"
+    ## [53] "./Positive/journal.pone.0258275.pdf" "./Positive/journal.pone.0258285.pdf"
+    ## [55] "./Positive/journal.pone.0258325.pdf" "./Positive/journal.pone.0258335.pdf"
+    ## [57] "./Positive/journal.pone.0258383.pdf" "./Positive/journal.pone.0258394.pdf"
+    ## [59] "./Positive/journal.pone.0258395.pdf" "./Positive/journal.pone.0258402.pdf"
+    ## [61] "./Positive/journal.pone.0258567.pdf" "./Negative/journal.pone.0255231.pdf"
+    ## [63] "./Negative/journal.pone.0255281.pdf" "./Negative/journal.pone.0255491.pdf"
+    ## [65] "./Negative/journal.pone.0256136.pdf" "./Negative/journal.pone.0256159.pdf"
+    ## [67] "./Negative/journal.pone.0256431.pdf" "./Negative/journal.pone.0256534.pdf"
+    ## [69] "./Negative/journal.pone.0256567.pdf" "./Negative/journal.pone.0256575.pdf"
+    ## [71] "./Negative/journal.pone.0256624.pdf" "./Negative/journal.pone.0256675.pdf"
+    ## [73] "./Negative/journal.pone.0256683.pdf" "./Negative/journal.pone.0256710.pdf"
+    ## [75] "./Negative/journal.pone.0256737.pdf" "./Negative/journal.pone.0256764.pdf"
+    ## [77] "./Negative/journal.pone.0256837.pdf" "./Negative/journal.pone.0256881.pdf"
+    ## [79] "./Negative/journal.pone.0256922.pdf" "./Negative/journal.pone.0256968.pdf"
+    ## [81] "./Negative/journal.pone.0257101.pdf" "./Negative/journal.pone.0257246.pdf"
+    ## [83] "./Negative/journal.pone.0257277.pdf" "./Negative/journal.pone.0257399.pdf"
+    ## [85] "./Negative/journal.pone.0257412.pdf" "./Negative/journal.pone.0257428.pdf"
+    ## [87] "./Negative/journal.pone.0257451.pdf" "./Negative/journal.pone.0257505.pdf"
+    ## [89] "./Negative/journal.pone.0257539.pdf" "./Negative/journal.pone.0257631.pdf"
+    ## [91] "./Negative/journal.pone.0257665.pdf" "./Negative/journal.pone.0257757.pdf"
+    ## [93] "./Negative/journal.pone.0257912.pdf" "./Negative/journal.pone.0257954.pdf"
+    ## [95] "./Negative/journal.pone.0257988.pdf" "./Negative/journal.pone.0258070.pdf"
+    ## [97] "./Negative/journal.pone.0258405.pdf"
 
 # List all keywords you want to detect as another list object
 
@@ -42,7 +101,11 @@ keywords <-
     "participants"
     
   )
+head(keywords)
 ```
+
+    ## [1] "taxonomy"         "pcr"              "amplification"    "primer"          
+    ## [5] "molecular"        "cloud computing "
 
 # Import Libarry
 
@@ -75,7 +138,24 @@ filelength <- length(files)
 wordlength <- length(keywords)
 word_count <- seq(1,filelength*wordlength)
 dim(word_count) <- c(filelength,wordlength)
+
+head(word_count)
 ```
+
+    ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14]
+    ## [1,]    1   98  195  292  389  486  583  680  777   874   971  1068  1165  1262
+    ## [2,]    2   99  196  293  390  487  584  681  778   875   972  1069  1166  1263
+    ## [3,]    3  100  197  294  391  488  585  682  779   876   973  1070  1167  1264
+    ## [4,]    4  101  198  295  392  489  586  683  780   877   974  1071  1168  1265
+    ## [5,]    5  102  199  296  393  490  587  684  781   878   975  1072  1169  1266
+    ## [6,]    6  103  200  297  394  491  588  685  782   879   976  1073  1170  1267
+    ##      [,15] [,16] [,17] [,18] [,19] [,20]
+    ## [1,]  1359  1456  1553  1650  1747  1844
+    ## [2,]  1360  1457  1554  1651  1748  1845
+    ## [3,]  1361  1458  1555  1652  1749  1846
+    ## [4,]  1362  1459  1556  1653  1750  1847
+    ## [5,]  1363  1460  1557  1654  1751  1848
+    ## [6,]  1364  1461  1558  1655  1752  1849
 
 # Loop through all pdf files and count the keywords of each files one by one
 
@@ -98,7 +178,24 @@ for (j in 1:length(files)) {
   }
   
 }
+
+head(word_count)
 ```
+
+    ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14]
+    ## [1,]   61    0    0    0    0    0    0    0    0     0     0     0     0     0
+    ## [2,]    0    0    0    0    0    0    0    0    0     0     1     0     0     1
+    ## [3,]    0    2    1    5   12    0    0    1    0     0    19     0     0     3
+    ## [4,]    6    1    2    3    3    0    0    9    3     0    17     0     0    16
+    ## [5,]    0    0    0    0    0    0    0    0    0     0     0     0     0     0
+    ## [6,]   11    0    0    0    5    0    0    0    0     0    62     0     0     6
+    ##      [,15] [,16] [,17] [,18] [,19] [,20]
+    ## [1,]     0     0     0     1    13     2
+    ## [2,]     0     0     0     8     0     0
+    ## [3,]     0     0     1     1     2     0
+    ## [4,]     0     0    15     0     0     0
+    ## [5,]     0     0     0     0     0    73
+    ## [6,]     0     0     0     0     1     0
 
 # Export the word Count as dataframe
 
@@ -134,12 +231,16 @@ Label
     ## [91] "Negative" "Negative" "Negative" "Negative" "Negative" "Negative"
     ## [97] "Negative"
 
+# Visualized the word count matrix
+
 ``` r
 library(pheatmap)
 pheatmap(word_matrix)
 ```
 
 ![](textmining_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+# Visualized the word count matrix after keyword filtering
 
 ``` r
 indices <- colSums(word_matrix) > 10
@@ -193,6 +294,8 @@ caret::confusionMatrix(svm_pred, svm_y)
     ##                                           
     ##        'Positive' Class : Negative        
     ## 
+
+# Using Logistic Regression
 
 ``` r
 library(glmnet)
@@ -253,6 +356,8 @@ y <- as.numeric(as.factor(Label)) -1
 train_label <- to_categorical(y,num_classes = 2)
 train_label <- train_label %>% copydata(5)
 ```
+
+# Create Neural Network in Keras
 
 ``` r
 model <- keras_model_sequential() %>% 
@@ -352,6 +457,8 @@ x <- unlist(word_matrix_test[,indices])
 dim(x) <- c(filelength,ncol(word_matrix2))
 ```
 
+#Predict Outcome of testing document against ground truth
+
 ``` r
 NN_prediction <- predict(model,x=x)
 NN_prediction <- round(NN_prediction)
@@ -377,4 +484,17 @@ cm$table
     ##   Negative        3        0
     ##   Positive        0        3
 
-\`\`\`
+# Which Article do I read then?
+
+``` r
+colnames(NN_prediction) <- c("Negative","Positive")
+rownames(NN_prediction) <- TestFiles
+
+NN_results <- NN_prediction[NN_prediction[,2]==1,]
+NN_results
+```
+
+    ##                         Negative Positive
+    ## ./Test/Positive (1).pdf        0        1
+    ## ./Test/Positive (2).pdf        0        1
+    ## ./Test/Positive (3).pdf        0        1
