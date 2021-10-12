@@ -1,16 +1,19 @@
-Before you start 1. Set up the folder and file system with pdf in
-Positive and Negative
+# Before you start
 
-Chapters 1. set up the path for both positive and negative folder  
-2. Set up all keywords  
-3. Create a Word Count matrix of correct dimensions  
-4. Loop through all pdf files and count the keywords of each files one
-by one  
-5. Export the word Count as data frame  
-6. Using SVM for classification  
-7. Using Neural Network for classification  
-8. Using Logistic regression for classification  
-9. Test model on new data
+1.  Set up the folder and file system with pdf in Positive and Negative
+
+# Chapters
+
+1.  set up the path for both positive and negative folder  
+2.  Set up all keywords  
+3.  Create a Word Count matrix of correct dimensions  
+4.  Loop through all pdf files and count the keywords of each files one
+    by one  
+5.  Export the word Count as data frame  
+6.  Using SVM for classification  
+7.  Using Neural Network for classification  
+8.  Using Logistic regression for classification  
+9.  Test model on new data
 
 # Setup Work Directory and List down all Pdf in the folder as a list object
 
@@ -461,7 +464,7 @@ x <- unlist(word_matrix_test[,indices])
 dim(x) <- c(filelength,ncol(word_matrix2))
 ```
 
-#Predict Outcome of testing document against ground truth
+#Predict Outcome of testing documents against ground truth
 
 ``` r
 NN_prediction <- predict(model,x=x)
@@ -488,7 +491,7 @@ cm$table
     ##   Negative        3        0
     ##   Positive        0        3
 
-# Which Article do I read then?
+# Which articles do I read then?
 
 ``` r
 colnames(NN_prediction) <- c("Negative","Positive")
